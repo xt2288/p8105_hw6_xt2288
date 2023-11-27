@@ -1,0 +1,15 @@
+---
+title: "p8105_hw6_xt2299.Rmd"
+author: "Xiaoting Tang"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+
+
+
+
+
+
+
+

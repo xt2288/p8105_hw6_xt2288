@@ -116,10 +116,9 @@ weather_data_df = weather_df |>
     values_from = estimate
   ) |>
   mutate(
-    log_b1_b2 = log(tmin * prcp),
-    log_b0_b1 = log(`(Intercept)` * tmin)
+    log_b1_b2 = log(tmin * prcp)
   ) |>
-  select(.id, r.squared, log_b1_b2, log_b0_b1)
+  select(.id, r.squared, log_b1_b2)
 ```
 
 Plot the distribution of ${r^2}$
@@ -138,16 +137,16 @@ weather_data_df |>
   geom_density()
 ```
 
-The distribution of log($\hat{\beta_1} * \hat{\beta_2}$) is left-skewed. NAs are removed.
+`r sum(is.na(pull(weather_data_df,log_b1_b2)))/nrow(weather_data_df)`% is NA. After removed these NAs. The distribution of log($\hat{\beta_1} * \hat{\beta_2}$) is left-skewed.
 
 Here is the 95% confidence interval for ${r^2}$.
 ```{r}
 quantile(pull(weather_data_df, r.squared), probs = c(0.025, 0.975))
 ```
 
-Here is the 95% confidence interval for log($\hat{\beta_0} * \hat{\beta_1}$).
+Here is the 95% confidence interval for log($\hat{\beta_1} * \hat{\beta_2}$) after removing the NAs.
 ```{r}
-quantile(pull(weather_data_df, log_b0_b1), probs = c(0.025, 0.975))
+quantile(pull(weather_data_df, log_b1_b2), probs = c(0.025, 0.975), na.rm = TRUE)
 ```
 
 
